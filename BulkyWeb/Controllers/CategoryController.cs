@@ -33,6 +33,7 @@ namespace BulkyWeb.Controllers
             {
                 _db.Categories.Add(obj);
                 _db.SaveChanges();
+                TempData["success"] = "Category Created Successfully";
                 return RedirectToAction("Index");
             }
             return View();
@@ -63,12 +64,40 @@ namespace BulkyWeb.Controllers
             //Server Validation
             if (ModelState.IsValid)
             {
-                _db.Categories.Add(obj);
+                _db.Categories.Update(obj);
                 _db.SaveChanges();
+                TempData["success"] = "Category Updated Successfully";
                 return RedirectToAction("Index");
             }
             return View();
 
+        }
+        public IActionResult Delete(int? CategoryID)
+        {
+            if (CategoryID == 0 || CategoryID == null)
+            {
+                return NotFound();
+            }
+            Category categoryfromDb = _db.Categories.Find(CategoryID);
+            if (categoryfromDb == null)
+            {
+                return NotFound();
+            }
+            return View(categoryfromDb);
+        }
+        [HttpPost,ActionName("Delete")]
+        public IActionResult DeletePost(int? CategoryID)
+        {
+            Category? Obj = _db.Categories.Find(CategoryID);
+            if (Obj==null)
+            {
+                return NotFound();
+            }
+            _db.Categories.Remove(Obj);
+            _db.SaveChanges();
+            TempData["success"] = "Category Deletdd Successfully";
+            return RedirectToAction("Index");
+          
         }
     }
 }
