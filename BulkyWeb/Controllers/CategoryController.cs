@@ -1,4 +1,4 @@
-﻿using BulkyWeb.Data;
+﻿using BulkyWeb.DAL.Data;
 using BulkyWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 
